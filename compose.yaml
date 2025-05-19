@@ -13,8 +13,13 @@ services:
       timeout: 10s
       retries: 5
       start_period: 10s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.aiostreams.rule=Host(`aiostreams.dookibot.com`)"
+      - "traefik.http.routers.aiostreams.entrypoints=websecure"
+      - "traefik.http.routers.aiostreams.tls.certresolver=letsencrypt"
 
-traefik:
+  traefik:
     image: traefik:v3
     container_name: traefik
     restart: unless-stopped
@@ -34,7 +39,7 @@ traefik:
       - "--providers.docker.exposedbydefault=false"
       - "--entryPoints.websecure.address=:443"
       - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
-      - "--certificatesresolvers.letsencrypt.acme.email=youremail@example.com"
+      - "--certificatesresolvers.letsencrypt.acme.email=bradyt02@gmail.com"
       - "--certificatesresolvers.letsencrypt.acme.storage=/config/acme.json"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
